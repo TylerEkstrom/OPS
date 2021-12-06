@@ -1,6 +1,6 @@
 #! /usr/bin/env powershell
 
-function killer($processname){
+function killer(){
   get-process
   $whatkill = Read-Host -Prompt 'Choose a sacrifice'
   stop-process $whatkill
