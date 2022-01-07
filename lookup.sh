@@ -1,5 +1,7 @@
 #!/bin/bash
 
+##not done work in progress
+
 function lookups(){
 read = $target;
 whois $target;
