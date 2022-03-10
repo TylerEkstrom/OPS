@@ -14,11 +14,10 @@ context = ssl.create_default_context()
 def downEmail(subject, message):
   with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
     server.login(emailTo, password)
-    server.sendmail(emailTo, emailTo, f"""
-    From: {emailTo}
-    Subject:{subject}
+    server.sendmail(emailTo, emailTo, f"""From: {emailTo}
+Subject:{subject}
 
-    {message}
+{message}
     """)
     server.close()
     print("Email Sent")
