@@ -65,6 +65,7 @@ def shutDown():
     print('2')
     sleep(1)
     print('1')
+    sleep(1)
     os.system('clear')
     exit(1)
 
@@ -112,6 +113,7 @@ def encrypt_message(message):
     
 def decrypt_message(message):
     decrypted_message = (cryptoligist.decrypt(message)).decode()
+    pc.copy(decrypted_message)
     print(f"{decrypted_message}")
     return decrypted_message
 
