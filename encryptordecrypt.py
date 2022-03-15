@@ -23,36 +23,72 @@ def menu():
 '.________________.'
 
 What would you like to do
-
-  1 - Encrypt 
-  2 - Decrypt
-  3 - Quit
+  1 - Encypt File
+  2 - Decrypt File
+  3 - Encypt Message
+  4 - Decypt Message
+  5 - Quit
 
   Please select a number: """)
 
     if choice == '1':
-        message = input("Please provide your message: ")
-        # message.encode is translating your string text into computer speak bytes 0 and 1
-        encrypt_message(message.encode())
+       print("Encypt file")
+       filePath = input("Choose file to Encypt: ")
+       if exists(filePath):
+           Encypt_file(filePath)
+       else:
+            print("[!] invalid file try again [!]")
     elif choice == '2':
-        message = input("Please provide your encrypted message: ")
-        decrypt_message(message.encode())
+      print("Decrypt File")
+      filePath = input("Choose file to Decypt: ")
+      if exists(filePath):
+          Decrypt_file(filePath)
+      else:
+          print("[!] invalid file try again [!]")
     elif choice == '3':
-        print('Fine Leave!!!')
-        print('but first I\'ll waste your time')
-        sleep(2)
-        os.system('clear')
-        exit(1)
+        message = input("What is the message?: ")
+        encrypt_message(message.encode())
+    elif choice == '4':
+        message = input("What is the encypted message?: ")
+        decrypt_message(message.encode())
+    elif choice == '5':
+        shutDown()
     sleep(3)
     os.system('clear')
     menu()
 
-# how do you know if the user choose encrypt or decrypt?
-# how do you run one or the other option
+def shutDown():
+    print('computer self destruction in...')
+    sleep(1)
+    print('3')
+    sleep(1)
+    print('2')
+    sleep(1)
+    print('1')
+    os.system('clear')
+    exit(1)
 
+def Decrypt_file(filePath):
+    print("Decypting...")
+    file = open(filePath, 'r')
+    contents = file.read()
+    file.close()
+    decrypted_message = decrypt_message(contents.encode())
+    file = open(filePath, 'w')
+    file.write(decrypted_message)
+    file.close()
+
+def Encypt_file(filePath):
+    print("Encypting...")
+    file = open(filePath, 'r')
+    contents = file.read()
+    file.close()
+    encrypted_message = encrypt_message(contents.encode())
+    file =  open(filePath, 'w')
+    file.write(encrypted_message)
+    file.close()
 
 def load_or_generate_key():
-    # check if file exists
     key_exists = exists('secret.key')
 
     if key_exists:
@@ -66,20 +102,18 @@ def load_or_generate_key():
         cryptoligist = Fernet(key)
     return cryptoligist
 
-
 def encrypt_message(message):
     encrypted_message = (cryptoligist.encrypt(message)).decode()
     pc.copy(encrypted_message)
     print(f"""-------------encrypted_message----------
 {encrypted_message}
     """)
+    return encrypted_message
     
-
-
 def decrypt_message(message):
     decrypted_message = (cryptoligist.decrypt(message)).decode()
     print(f"{decrypted_message}")
-
+    return decrypted_message
 
 cryptoligist = load_or_generate_key()
 menu()
