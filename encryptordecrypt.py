@@ -1,5 +1,7 @@
 import os
+from importlib.resources import path
 from os.path import exists
+from posixpath import dirname
 from time import sleep
 
 import clipboard as pc
@@ -23,11 +25,13 @@ def menu():
 '.________________.'
 
 What would you like to do
-  1 - Encypt File
+  1 - Encrypt File
   2 - Decrypt File
-  3 - Encypt Message
-  4 - Decypt Message
-  5 - Quit
+  3 - Encrypt Message
+  4 - Decrypt Message
+  5 - Encrypt Folder
+  6 - Decrypt Folder
+  7 - Quit
 
   Please select a number: """)
 
@@ -35,7 +39,7 @@ What would you like to do
        print("Encypt file")
        filePath = input("Choose file to Encypt: ")
        if exists(filePath):
-           Encypt_file(filePath)
+           Encrypt_file(filePath)
        else:
             print("[!] invalid file try again [!]")
     elif choice == '2':
@@ -52,6 +56,14 @@ What would you like to do
         message = input("What is the encypted message?: ")
         decrypt_message(message.encode())
     elif choice == '5':
+        print('Encrypt Folder')
+        dirname = input('Choose a folder: ')
+        encrypt_folder(dirname)
+    elif choice == '6': 
+        print('Decrypt Folder') 
+        dirname = input('Choose a folder: ')
+        decrypt_folder(dirname)
+    elif choice == '7':
         shutDown()
     sleep(3)
     os.system('clear')
@@ -70,23 +82,23 @@ def shutDown():
     exit(1)
 
 def Decrypt_file(filePath):
-    print("Decypting...")
-    file = open(filePath, 'r')
+    print("Decrypting...")
+    file = open(filePath, 'rb')
     contents = file.read()
     file.close()
-    decrypted_message = decrypt_message(contents.encode())
-    file = open(filePath, 'w')
-    file.write(decrypted_message)
+    decrypted_message = decrypt_message(contents)
+    file = open(filePath, 'wb')
+    file.write(decrypted_message.encode())
     file.close()
 
-def Encypt_file(filePath):
-    print("Encypting...")
-    file = open(filePath, 'r')
+def Encrypt_file(filePath):
+    print("Encrypting...")
+    file = open(filePath, 'rb')
     contents = file.read()
     file.close()
-    encrypted_message = encrypt_message(contents.encode())
-    file =  open(filePath, 'w')
-    file.write(encrypted_message)
+    encrypted_message = encrypt_message(contents)
+    file =  open(filePath, 'wb')
+    file.write(encrypted_message.encode())
     file.close()
 
 def load_or_generate_key():
@@ -116,6 +128,20 @@ def decrypt_message(message):
     pc.copy(decrypted_message)
     print(f"{decrypted_message}")
     return decrypted_message
+
+def encrypt_folder(dirname):
+    for path, dirnames, files in os.walk(dirname):
+        for file in files:
+            filePath = os.path.join(path, file)
+            print(f'Encrypting File {filePath}')
+            Encrypt_file(filePath)
+
+def decrypt_folder(dirname):
+    for path, dirnames, files in os.walk(dirname):
+     for file in files:
+         filePath = os.path.join(path, file)
+         print(f'Decrypting File {filePath}')
+         Decrypt_file(filePath)
 
 cryptoligist = load_or_generate_key()
 menu()
