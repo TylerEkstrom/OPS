@@ -1,3 +1,4 @@
 *.log
 *.txt
 *.key
+__pycache__
